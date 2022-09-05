@@ -1,21 +1,24 @@
 describe('App.ClickCountView', ()=> {
     let updateEl, clickCounter, view
-    beforeEach(()=> {
-        clickCounter = App.ClickCounter()
-        updateEl = document.createElement('span')
-        view = App.ClickCountView(clickCounter, updateEl)
-    })
 
     it('clickCounter를 주입하지 않으면 에러를 던진다.', ()=> {
         const clickCounter = null
         const updateEl = document.createElement('span')
-
         const actual = () => App.ClickCountView(clickCounter, updateEl)
-        expect(actual).toThrowError()
+        expect(actual).toThrowError(App.ClickCountView.messages.noClickCounter)
     })
 
     it('updateEl를 주입하지 않으면 에러를 던진다.', ()=> {
+        const clickCounter = App.ClickCounter()
+        const updateEl = null
+        const actual = () => App.ClickCountView(clickCounter, updateEl)
+        expect(actual).toThrowError(App.ClickCountView.messages.noUpdateEl)
+    })
 
+    beforeEach(()=> {
+        clickCounter = App.ClickCounter()
+        updateEl = document.createElement('span')
+        view = App.ClickCountView(clickCounter, updateEl)
     })
 
     describe('updateView()', ()=> {

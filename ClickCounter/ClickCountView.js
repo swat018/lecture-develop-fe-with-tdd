@@ -1,7 +1,8 @@
 var App = App || {}
 
 App.ClickCountView = (clickCounter, updateEl) => {
-    if (!clickCounter) throw Error('clickCounter')
+    if (!clickCounter) throw new Error(App.ClickCountView.messages.noClickCounter)
+    if (!updateEl) throw new Error(App.ClickCountView.messages.noUpdateEl)
 
     return {
         updateView() {
@@ -12,4 +13,9 @@ App.ClickCountView = (clickCounter, updateEl) => {
             this.updateView()
         }
     }
+}
+
+App.ClickCountView.messages = {
+    noClickCounter: 'clickCount를 주입해야 합니다.',
+    noUpdateEl: 'updateEl를 주입해야 합니다.'
 }
