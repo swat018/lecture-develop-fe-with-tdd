@@ -1,24 +1,23 @@
 describe('App.ClickCountView', ()=> {
-    let updateEl, clickCounter, view
-
-    it('clickCounter를 주입하지 않으면 에러를 던진다.', ()=> {
-        const clickCounter = null
-        const updateEl = document.createElement('span')
-        const actual = () => App.ClickCountView(clickCounter, updateEl)
-        expect(actual).toThrowError(App.ClickCountView.messages.noClickCounter)
-    })
-
-    it('updateEl를 주입하지 않으면 에러를 던진다.', ()=> {
-        const clickCounter = App.ClickCounter()
-        const updateEl = null
-        const actual = () => App.ClickCountView(clickCounter, updateEl)
-        expect(actual).toThrowError(App.ClickCountView.messages.noUpdateEl)
-    })
+    let updateEl, triggerEl, clickCounter, view
 
     beforeEach(()=> {
-        clickCounter = App.ClickCounter()
         updateEl = document.createElement('span')
-        view = App.ClickCountView(clickCounter, updateEl)
+        triggerEl = document.createElement('button')
+        clickCounter = App.ClickCounter()
+        view = App.ClickCountView(clickCounter, {updateEl, triggerEl})
+    })
+
+    describe('네거티브 테스트', ()=> {
+        it('clickCounter를 주입하지 않으면 에러를 던진다.', ()=> {
+            const actual = () => App.ClickCountView(null, {updateEl})
+            expect(actual).toThrowError(App.ClickCountView.messages.noClickCounter)
+        })
+        it('updateEl를 주입하지 않으면 에러를 던진다.', ()=> {
+            const actual = () => App.ClickCountView(clickCounter, {triggerEl})
+            expect(actual).toThrowError(App.ClickCountView.messages.noUpdateEl)
+        })
+
     })
 
     describe('updateView()', ()=> {
@@ -40,6 +39,12 @@ describe('App.ClickCountView', ()=> {
             spyOn(view, 'updateView')
             view.increaseAndUpdateView()
             expect(view.updateView).toHaveBeenCalled()
+        })
+
+        it('클릭 이벤트가 발생하면 inceaseAndUpdateView를 실행한다.', ()=> {
+            spyOn(view, 'increaseAndUpdateView')
+            triggerEl.click()
+            expect(view.increaseAndUpdateView).toHaveBeenCalled()
         })
     })
 })
