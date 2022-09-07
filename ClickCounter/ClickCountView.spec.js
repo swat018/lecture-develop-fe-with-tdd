@@ -17,7 +17,6 @@ describe('App.ClickCountView', ()=> {
             const actual = () => App.ClickCountView(clickCounter, {triggerEl})
             expect(actual).toThrowError(App.ClickCountView.messages.noUpdateEl)
         })
-
     })
 
     describe('updateView()', ()=> {
@@ -41,7 +40,7 @@ describe('App.ClickCountView', ()=> {
             expect(view.updateView).toHaveBeenCalled()
         })
 
-        it('클릭 이벤트가 발생하면 inceaseAndUpdateView를 실행한다.', ()=> {
+        it('클릭 이벤트가 발생하면 increaseAndUpdateView를 실행한다.', ()=> {
             spyOn(view, 'increaseAndUpdateView')
             triggerEl.click()
             expect(view.increaseAndUpdateView).toHaveBeenCalled()
